@@ -11,6 +11,14 @@ public class Cart { // This class is used to manage the cart
         discount = 0.0;
     }
 
+    public List<CartItem> getItems(){
+        return items;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
     public void addItem (Product product, int quantity) { // Add an item to the cart
         CartItem cartItem = new CartItem(product, quantity);
         items.add(cartItem);
