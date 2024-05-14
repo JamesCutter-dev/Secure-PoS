@@ -47,9 +47,17 @@ public class Cart { // This class is used to manage the cart
         return total - (total * discount / 100);
     }
 
-    public double processPayment(double amountPaid) { // Process the payment and return the change
-        double total = calculateTotal();
-        return amountPaid - total;
+    public double processPayment(double amountPaid) { // Process the payment and return the change 1.2 added IllegalArgumentException
+        try {
+            double total = calculateTotal();
+            if (amountPaid < total) {
+                throw new IllegalArgumentException("Insufficient payment");
+            }
+            return amountPaid - total;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return -1;
+        }
     }
 
     public void generateReceipt()   { // Generate a receipt for the items in the cart
