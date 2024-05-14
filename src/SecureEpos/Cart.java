@@ -46,6 +46,13 @@ public class Cart { // This class is used to manage the cart
         }
         return total - (total * discount / 100);
     }
+    public double getTotal() { // Calculate the total price of the items in the cart
+        double total = 0;
+        for (CartItem item : items) {
+            total += item.getTotalPrice();
+        }
+        return total;
+    }
 
     public double processPayment(double amountPaid) { // Process the payment and return the change 1.2 added IllegalArgumentException
         try {

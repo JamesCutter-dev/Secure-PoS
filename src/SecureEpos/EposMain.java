@@ -198,7 +198,7 @@ public class EposMain { // This class is used to manage the EPoS system
         }
     }
 
-    private static void checkout() { // this method allows the user to checkout
+    private static void checkout() { // this method allows the user tocheckout
         cart.checkout();
         System.out.println("Thank you for shopping with us.");
     }
