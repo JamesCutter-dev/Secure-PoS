@@ -51,6 +51,10 @@ public class CartPanel extends JPanel { // This panel displays the cart in a tab
         addButton.addActionListener(e -> addItemToCart());
         panel.add(addButton);
 
+        JButton removeButton = new JButton("Remove from Cart");
+        removeButton.addActionListener(e -> removeItemFromCart());
+        panel.add(removeButton);
+
         return panel;
     }
 
@@ -65,6 +69,23 @@ public class CartPanel extends JPanel { // This panel displays the cart in a tab
                 updateTotalAmountDue();
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid quantity.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid quantity.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void removeItemFromCart() {
+        Product selectedProduct = (Product) productComboBox.getSelectedItem();
+        int quantity;
+        try {
+            quantity = Integer.parseInt(quantityField.getText());
+            if (quantity > 0 && selectedProduct != null && cart.hasItem(selectedProduct, quantity)) {
+                cart.removeItem(selectedProduct, quantity);
+                refreshCart();
+                updateTotalAmountDue();
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid quantity or product not in cart.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter a valid quantity.", "Error", JOptionPane.ERROR_MESSAGE);
