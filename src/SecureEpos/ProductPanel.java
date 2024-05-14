@@ -1,39 +1,55 @@
-// this test panel is a simple form that allows the user to add a product to the system, it is a basic prototype
+// This panel displays products in a table
 
 package SecureEpos;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.Vector;
 
-public class ProductPanel extends JPanel{
-    private JTextField nameField, priceField, quantityField;
-    private JButton addButton;
+public class ProductPanel extends JPanel {
+    private JTable table;
+    private ProductManager productManager;
 
-    public ProductPanel() {
-        setBorder(BorderFactory.createTitledBorder("Add Product"));
-        setLayout(new GridLayout(4, 2));
+    public ProductPanel(ProductManager productManager) {
+        this.productManager = productManager;
+        setLayout(new BorderLayout());
 
-        add(new JLabel("Name:"));
-        nameField = new JTextField(10);
-        add(nameField);
+        Vector<String> columnNames = new Vector<>();
+        columnNames.add("ID");
+        columnNames.add("Name");
+        columnNames.add("Price");
+        columnNames.add("Quantity");
+        columnNames.add("Discount");
 
-        add(new JLabel("Price:"));
-        priceField = new JTextField(10);
-        add(priceField);
+        table = new JTable(new Vector<>(), columnNames);
+        refreshTable();
 
-        add(new JLabel("Quantity:"));
-        quantityField = new JTextField(10);
-        add(quantityField);
-
-        addButton = new JButton("Add");
-        add(addButton);
-        addButton.addActionListener(e -> addProduct());
-
+        add(new JScrollPane(table), BorderLayout.CENTER);
     }
-    private void addProduct() {
-        String name = nameField.getText();
-        double price = Double.parseDouble(priceField.getText());
-        int quantity = Integer.parseInt(quantityField.getText());
-        // integrate with product manager
-        System.out.println("Added product: " + name + " Price: " + price + " Quantity: " + quantity);
+
+    public void refreshTable() {
+        Vector<Vector<Object>> data = new Vector<>();
+        for (Product product : productManager.getProducts()) {
+            Vector<Object> row = new Vector<>();
+            row.add(product.getID());
+            row.add(product.getName());
+            row.add(product.getPrice());
+            row.add(product.getQuantity());
+            row.add(product.getDiscount());
+            data.add(row);
+        }
+        DefaultTableModel model = new DefaultTableModel(data, getColumnNames());
+        table.setModel(model);
+        table.repaint();
+    }
+
+    private Vector<String> getColumnNames() {
+        Vector<String> columnNames = new Vector<>();
+        columnNames.add("ID");
+        columnNames.add("Name");
+        columnNames.add("Price");
+        columnNames.add("Quantity");
+        columnNames.add("Discount");
+        return columnNames;
     }
 }
