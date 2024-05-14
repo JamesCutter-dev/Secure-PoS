@@ -7,29 +7,88 @@ import java.util.Vector;
 
 public class CartPanel extends JPanel { // This panel displays the cart in a table
     private Cart cart;
+    private ProductManager productManager;
     private JTable table;
-    private JButton checkoutButton, applyDiscountButton, processPaymentButton;
+    private JComboBox<Product> productComboBox;
+    private JTextField quantityField;
+    private JButton addButton, checkoutButton, applyDiscountButton, processPaymentButton;
     private JTextField discountField, paymentField;
     private JLabel totalAmountDueLabel;
 
+
     public CartPanel(Cart cart, ProductManager productManager) {
         this.cart = cart;
+        this.productManager = productManager;
         setLayout(new BorderLayout());
 
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setDividerLocation(350); // You can adjust this value to suit your layout
+
+        JPanel addItemPanel = setupAddItemPanel();
+        JPanel viewCartPanel = setupViewCartPanel();
+
+        splitPane.setLeftComponent(addItemPanel);
+        splitPane.setRightComponent(viewCartPanel);
+
+        add(splitPane, BorderLayout.CENTER);
+    }
+
+    private JPanel setupAddItemPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 1, 10, 10)); // Simple grid layout
+
+        productComboBox = new JComboBox<>();
+        productManager.getProducts().forEach(productComboBox::addItem);
+        panel.add(new JLabel("Select Product:"));
+        panel.add(productComboBox);
+
+        quantityField = new JTextField();
+        panel.add(new JLabel("Quantity:"));
+        panel.add(quantityField);
+
+        addButton = new JButton("Add to Cart");
+        addButton.addActionListener(e -> addItemToCart());
+        panel.add(addButton);
+
+        return panel;
+    }
+
+    private void addItemToCart() {
+        Product selectedProduct = (Product) productComboBox.getSelectedItem();
+        int quantity;
+        try {
+            quantity = Integer.parseInt(quantityField.getText());
+            if (quantity > 0 && selectedProduct != null) {
+                cart.addItem(selectedProduct, quantity);
+                refreshCart();
+                updateTotalAmountDue();
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid quantity.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid quantity.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private JPanel setupViewCartPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+
         Vector<String> columnNames = getColumnNames();
-        table = new JTable();
+        table = new JTable(new DefaultTableModel(null, columnNames));
+
+        totalAmountDueLabel = new JLabel("Total Amount Due: £0.00");
 
         JPanel bottomPanel = setupBottomPanel();
-
-        totalAmountDueLabel = new JLabel();
-        updateTotalAmountDue();  // Initial update for the label
         bottomPanel.add(totalAmountDueLabel);
 
-        add(new JScrollPane(table), BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.SOUTH);
+        panel.add(new JScrollPane(table), BorderLayout.CENTER);
+        panel.add(bottomPanel, BorderLayout.SOUTH);
 
-        refreshCart();
+        refreshCart(); // Initial refresh to populate table
+        return panel;
     }
+
 
     private JPanel setupBottomPanel() {
         JPanel bottomPanel = new JPanel();
@@ -62,6 +121,7 @@ public class CartPanel extends JPanel { // This panel displays the cart in a tab
         bottomPanel.add(paymentField);
         bottomPanel.add(processPaymentButton);
         bottomPanel.add(checkoutButton);
+        bottomPanel.add(totalAmountDueLabel);
 
         return bottomPanel;
     }
@@ -82,6 +142,19 @@ public class CartPanel extends JPanel { // This panel displays the cart in a tab
         table.repaint();
         updateTotalAmountDue();
     }
+
+    private void setupProductDropdown() {
+        productComboBox = new JComboBox<>();
+        refreshProductDropdown();
+    }
+
+    public void refreshProductDropdown() {
+        productComboBox.removeAllItems();
+        for (Product product : productManager.getProducts()) {
+            productComboBox.addItem(product);
+        }
+    }
+
 
     private void updateTotalAmountDue() {
         double total = cart.calculateTotal();

@@ -1,3 +1,4 @@
+/*
 package SecureEpos;
 
 import javax.swing.*;
@@ -13,10 +14,12 @@ public class AddItemToCartPanel extends JPanel {
     public AddItemToCartPanel(ProductManager productManager, Cart cart) {
         this.productManager = productManager;
         this.cart = cart;
-        setLayout(new GridLayout(3, 2, 5, 5));
+        setLayout(new GridLayout (0,1));
 
         productDropdown = new JComboBox<>();
+        refreshProducts();
         productManager.getProducts().forEach(productDropdown::addItem);
+
         add(new JLabel("Select Product:"));
         add(productDropdown);
 
@@ -50,3 +53,4 @@ public class AddItemToCartPanel extends JPanel {
         productManager.getProducts().forEach(productDropdown::addItem);
     }
 }
+*/

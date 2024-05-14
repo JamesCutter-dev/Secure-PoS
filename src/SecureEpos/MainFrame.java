@@ -51,20 +51,10 @@ public class MainFrame extends JFrame {
         });
         menu.add(viewProductsItem);
 
-        JMenuItem addItemToCart = new JMenuItem("Add Item to Cart");
-        addItemToCart.addActionListener(e -> {
-            ((AddItemToCartPanel) cardPanel.getComponent(3)).refreshProducts();  // Adjust index accordingly
-            cardLayout.show(cardPanel, "Add Item to Cart");
-        });
-        menu.add(addItemToCart);
-
-        // JMenuItem processPaymentItem = new JMenuItem("Process Payment");
-        // processPaymentItem.addActionListener(e -> new ProcessPaymentDialog(this, cart));
-        // menu.add(processPaymentItem);
-
         JMenuItem viewCart = new JMenuItem("View Cart");
         viewCart.addActionListener(e -> {
-            ((CartPanel) cardPanel.getComponent(4)).refreshCart();
+            ((CartPanel) cardPanel.getComponent(3)).refreshCart();  // Ensure the index is correctly pointing to CartPanel
+            ((CartPanel) cardPanel.getComponent(3)).refreshProductDropdown();
             cardLayout.show(cardPanel, "Cart");
         });
         menu.add(viewCart);
@@ -77,8 +67,7 @@ public class MainFrame extends JFrame {
         cardPanel.add(new AddProductPanel(productManager), "Add Product");
         cardPanel.add(new ProductPanel(productManager), "View Products");
         cardPanel.add(new UpdateProductPanel(productManager), "Update Product");
-        cardPanel.add(new AddItemToCartPanel(productManager, cart), "Add Item to Cart");
-        cardPanel.add(new CartPanel(cart, productManager), "Cart");
+        cardPanel.add(new CartPanel(cart, productManager), "Cart");  // AddItemToCartPanel is now integrated here
     }
 
     public static void main(String[] args) {
