@@ -5,25 +5,72 @@ import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.awt.*;
+import java.awt.event.*;
 
 public class MainFrame extends JFrame {
     private CardLayout cardLayout = new CardLayout();
     private JPanel cardPanel = new JPanel(cardLayout);
     private ProductManager productManager = new ProductManager();
     private Cart cart = new Cart();
+    private Timer idleTimer;
 
     public MainFrame() {
         setTitle("EPoS System");
-        setSize(1000, 600);
+        setSize(1400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         setupMenu();
         setupPanels();
         add(cardPanel);
+        setupIdleTimer(300000); // 300000 ms = 5 minutes
+        authenticateUser();
 
         setVisible(true);
     }
+
+    private void setupIdleTimer(int timeout) {
+        ActionListener logoutListener = e -> {
+            idleTimer.stop();  // Stop the timer to prevent multiple pop-ups
+            authenticateUser();  // Re-authenticate
+        };
+        idleTimer = new Timer(timeout, logoutListener);
+        idleTimer.setRepeats(false); // The timer should not repeat automatically
+
+        // Add mouse and key listener to the JFrame to reset the timer on any interaction
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                resetIdleTimer();
+            }
+        });
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                resetIdleTimer();
+            }
+        });
+        setFocusable(true); // Ensure the frame can get focus for key events
+    }
+
+    private void resetIdleTimer() {
+        if (idleTimer.isRunning()) {
+            idleTimer.restart();
+        } else {
+            idleTimer.start();
+        }
+    }
+
+    private void authenticateUser() {
+        LoginDialog loginDialog = new LoginDialog(this);
+        loginDialog.setVisible(true);
+        if (loginDialog.isAuthenticated()) {
+            resetIdleTimer(); // Start or reset the idle timer after successful login
+        } else {
+            System.exit(0);  // Exit if authentication fails
+        }
+    }
+
 
     private void setupMenu() {
         JMenuBar menuBar = new JMenuBar();
@@ -71,6 +118,9 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainFrame::new);
+        SwingUtilities.invokeLater(() -> {
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.setVisible(true);
+        });
     }
 }
