@@ -27,6 +27,7 @@ public class Product { // This class is used to represent a product
 
     public double getPriceAfterDiscount() { // Calculate the price after discount
         return price - price * discount / 100;
+
     }
 
     @Override

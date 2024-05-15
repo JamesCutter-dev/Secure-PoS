@@ -29,6 +29,10 @@ public class ProductManager { // This class is used to manage the products
         return null;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
     public void updateProduct(int id, String name, double price, int quantity, double discount) { // Update a product
         Product product = getProductById(id);
         if (product != null) {

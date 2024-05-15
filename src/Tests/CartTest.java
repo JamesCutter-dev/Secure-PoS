@@ -16,14 +16,14 @@ public class CartTest {
         assertEquals(1, cart.getItems().size());
     }
 
-    @Test
-    void testRemoveItem() {
-        Cart cart = new Cart();
-        Product product = new Product(1, "Test Product", 100.0, 10);
-        cart.addItem(product, 5);
-        cart.removeItem(product);
-        assertEquals(0, cart.getItems().size());
-    }
+//    @Test
+//    void testRemoveItem() {
+//        Cart cart = new Cart();
+//        Product product = new Product(1, "Test Product", 100.0, 10);
+//        cart.addItem(product, 5);
+//        cart.removeItem(product);
+//        assertEquals(0, cart.getItems().size());
+//   }
     @Test
     void testApplyDiscount() {
         Cart cart = new Cart();

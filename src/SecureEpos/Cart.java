@@ -5,6 +5,10 @@ import java.util.List;
 public class Cart { // This class is used to manage the cart
     private List<CartItem> items;
     private double discount;
+    public boolean hasItem(Product product, int quantity) {
+        // Check if the product exists in the cart with at least 'quantity' amount
+        return items.stream().anyMatch(item -> item.getProduct().equals(product) && item.getQuantity() >= quantity);
+    }
 
     public Cart() { // Constructor
         items = new ArrayList<>();
@@ -24,8 +28,16 @@ public class Cart { // This class is used to manage the cart
         items.add(cartItem);
     }
 
-    public void removeItem(Product product) { // Remove an item from the cart
-        items.removeIf(item -> item.getProduct().getID() == product.getID());
+    public void removeItem(Product product, int quantity) {
+        // Find the cart item and reduce its quantity or remove it entirely
+        CartItem item = items.stream().filter(i -> i.getProduct().equals(product)).findFirst().orElse(null);
+        if (item != null) {
+            if (item.getQuantity() > quantity) {
+                item.setQuantity(item.getQuantity() - quantity);
+            } else {
+                items.remove(item);
+            }
+        }
     }
 
     public void viewCart() { // View the items in the cart
@@ -45,6 +57,13 @@ public class Cart { // This class is used to manage the cart
             total += item.getTotalPrice();
         }
         return total - (total * discount / 100);
+    }
+    public double getTotal() { // Calculate the total price of the items in the cart
+        double total = 0;
+        for (CartItem item : items) {
+            total += item.getTotalPrice();
+        }
+        return total;
     }
 
     public double processPayment(double amountPaid) { // Process the payment and return the change 1.2 added IllegalArgumentException
