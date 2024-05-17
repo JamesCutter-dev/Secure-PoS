@@ -1,5 +1,9 @@
 package SecureEpos;
 
+import SecureEpos.Cart.Cart;
+import SecureEpos.Product.Product;
+import SecureEpos.Product.ProductManager;
+
 import java.util.Scanner;
 
 public class EposMain { // This class is used to manage the EPoS system

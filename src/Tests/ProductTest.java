@@ -1,5 +1,5 @@
 package Tests;
-import SecureEpos.Product;
+import SecureEpos.Product.Product;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

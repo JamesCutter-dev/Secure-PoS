@@ -1,4 +1,7 @@
-package SecureEpos;
+package SecureEpos.Product;
+
+import SecureEpos.Product.Product;
+import SecureEpos.Product.ProductManager;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package SecureEpos;
+package SecureEpos.Security;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

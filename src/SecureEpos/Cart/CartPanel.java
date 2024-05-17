@@ -1,4 +1,7 @@
-package SecureEpos;
+package SecureEpos.Cart;
+
+import SecureEpos.Product.Product;
+import SecureEpos.Product.ProductManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

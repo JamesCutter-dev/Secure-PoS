@@ -1,4 +1,6 @@
-package SecureEpos;
+package SecureEpos.Cart;
+
+import SecureEpos.Product.Product;
 
 public class CartItem { // This class is used to represent an item in the cart
     private Product product;

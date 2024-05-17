@@ -1,4 +1,4 @@
-package SecureEpos;
+package SecureEpos.Product;
 
 public class Product { // This class is used to represent a product
     private int id;

@@ -1,6 +1,11 @@
 // This GUI will handle the main frame of the application, it contains a list of options
 package SecureEpos;
 
+import SecureEpos.Cart.Cart;
+import SecureEpos.Cart.CartPanel;
+import SecureEpos.Product.*;
+import SecureEpos.Security.LoginDialog;
+
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

@@ -1,6 +1,6 @@
 // This panel displays products in a table
 
-package SecureEpos;
+package SecureEpos.Product;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
