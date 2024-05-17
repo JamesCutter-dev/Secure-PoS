@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
         setupMenu();
         setupPanels();
         add(cardPanel);
-        setupIdleTimer(300000); // 300000 ms = 5 minutes
+        setupIdleTimer(60000); // 60000 ms = 1 minute
         authenticateUser();
 
         setVisible(true);

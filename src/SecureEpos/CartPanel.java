@@ -164,10 +164,10 @@ public class CartPanel extends JPanel { // This panel displays the cart in a tab
         updateTotalAmountDue();
     }
 
-    private void setupProductDropdown() {
-        productComboBox = new JComboBox<>();
-        refreshProductDropdown();
-    }
+ //   private void setupProductDropdown() {
+ //       productComboBox = new JComboBox<>();
+ //       refreshProductDropdown();
+ //   }
 
     public void refreshProductDropdown() {
         productComboBox.removeAllItems();

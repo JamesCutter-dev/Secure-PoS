@@ -13,7 +13,7 @@ public class CartTest {
         Cart cart = new Cart();
         Product product = new Product(1, "Test Product", 100.0, 10);
         cart.addItem(product, 5);
-        assertEquals(1, cart.getItems().size());
+        assertEquals(1, cart.getItems().size()); // 1 item in the cart
     }
 
 //    @Test
@@ -28,7 +28,7 @@ public class CartTest {
     void testApplyDiscount() {
         Cart cart = new Cart();
         cart.applyDiscount(10.0);
-        assertEquals(10, cart.getDiscount());
+        assertEquals(10, cart.getDiscount()); // discount applied
     }
 
     @Test
@@ -36,7 +36,7 @@ public class CartTest {
         Cart cart = new Cart();
         Product product = new Product(1, "Test Product", 100.0, 10);
         cart.addItem(product, 5);
-        assertEquals(500.0, cart.calculateTotal());
+        assertEquals(500.0, cart.calculateTotal()); // total price calculated
     }
 
     @Test
@@ -45,7 +45,7 @@ public class CartTest {
         Product product = new Product(1, "Test Product", 100.0, 10);
         cart.addItem(product, 5);
         cart.processPayment(500.0);
-        assertEquals(0, cart.processPayment(500));
+        assertEquals(0, cart.processPayment(500)); // payment processed
     }
 
     @Test
